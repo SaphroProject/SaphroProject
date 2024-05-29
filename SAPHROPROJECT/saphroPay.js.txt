@@ -1,0 +1,29 @@
+// saphroPay.js
+document.addEventListener('DOMContentLoaded', function() {
+    const saphroPayTile = document.getElementById('saphroPayTile');
+    const connectMetaMaskButton = document.getElementById('connectMetaMask');
+
+    // Function to toggle the display of the Saphro Pay tile
+    function toggleSaphroPayTile() {
+        saphroPayTile.style.display = (saphroPayTile.style.display === 'none' || saphroPayTile.style.display === '') ? 'block' : 'none';
+    }
+
+    // Connect to MetaMask
+    connectMetaMaskButton.addEventListener('click', function() {
+        if (window.ethereum) {
+            try {
+                window.ethereum.request({ method: 'eth_requestAccounts' })
+                    .then(accounts => {
+                        document.getElementById('accountAddress').textContent = accounts[0];
+                        toggleSaphroPayTile();  // Optionally toggle visibility upon connection
+                    });
+            } catch (error) {
+                console.error('Error connecting to MetaMask:', error);
+            }
+        } else {
+            alert('MetaMask is not installed. Please install it to use this feature.');
+        }
+    });
+
+    // Additional Saphro Pay functionality handlers can be added here
+});

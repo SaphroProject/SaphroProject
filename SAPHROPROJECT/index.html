@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saphro Space Pad</title> <!-- Updated title -->
+	<link rel="stylesheet" href="SNSstyles.css"> <!-- Link to the SNS specific CSS file -->
+	<link rel="stylesheet" href="chat.css"> <!-- Link to the chat CSS file -->
+	<link rel="stylesheet" href="storage.css">
+	<link rel="stylesheet" href="wallet.css">
+	<script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+	<script src="contracts.js" defer></script>
+	<script src="contracts2.js" defer></script>
+	<script src="MetamaskInt.js" defer></script>
+	<script src="SNSfunctions.js" defer></script>
+	<script src="SaphroBlockscanChat.js" defer></script>
+	<script src="wallet.js" defer></script>
+
+    <style>
+        /* CSS styles */
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #060930; /* Dark navy blue background */
+            overflow-x: hidden;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #060930; /* Dark navy blue */
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Navigation styles */
+        nav {
+            background-color: #060930; /* Dark navy blue */
+            padding: 10px;
+            text-align: center;
+        }
+
+        .button {
+            background-color: #6a0dad; /* Shiny purple color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Section styles */
+        .section {
+            padding: 20px;
+            margin: 20px;
+            background-color: rgba(128, 128, 128, 0.5);
+            border-radius: 5px;
+
+
+	}
+
+
+        /* Domain tile styles */
+        .domain-tile {
+            background-color: rgba(0, 0, 0, 0.3); /* Transparent black */
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        /* Web3 wallet styles */
+        .wallet-button {
+            background-color: #f8cb52; /* Yellow color for wallet button */
+        }
+
+        .wallet-button:hover {
+            background-color: #f0bb28; /* Darker yellow color on hover */
+        }
+
+        /* Wallet connect button styles */
+        .connect-wallet-button {
+            background-color: #6a0dad; /* Shiny purple color */
+        }
+
+        .connect-wallet-button:hover {
+            background-color: #4b245b; /* Darker purple color on hover */
+        }
+
+        /* Compose email tile styles */
+        .compose-tile {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+        .compose-tile h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .compose-tile input[type="text"],
+        .compose-tile textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .compose-tile textarea {
+            height: 200px;
+        }
+
+        .compose-tile button[type="submit"] {
+            background-color: #6a0dad; /* Shiny purple color */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .compose-tile button[type="submit"]:hover {
+            background-color: #4b245b; /* Darker purple color on hover */
+        }
+
+        /* Email tile styles */
+        .email-tile {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .email-tile h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .email-tile p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+	#chatSection {
+    	display: none; /* Hide the chat section initially */
+
+	}
+
+	.section {
+   	 display: none;
+
+	}
+
+	 .section.active {
+       	 display: block;
+
+	}
+
+	/* Optionally, you can show one section by default */
+	#sns-section {
+    	display: block;
+
+	}
+
+	#chat-section {
+    	display: block;
+
+	}
+
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Saphro Space Pad</h1>
+    </header>
+
+    <!-- Navigation Section -->
+    <nav>
+        <button class="button" onclick="showSNS()">SNS</button>
+        <button class="button" onclick="showSaphroMail()">Mail Box</button>
+	<button class="button" onclick="showSaphroNotes()">Notes</button> <!-- Modified to load the inbox section -->
+	<button class="button" onclick="showSaphroBlockscanChat()">Chat</button>
+	<button class="button" onclick="showStorage()">Storage</button> <!-- New button for Storage -->
+        <button class="button" onclick="showWallet()">Wallet</button> <!-- New button for Wallet -->
+	
+
+    </nav>
+
+    
+ <section id="sns-section" class="section">
+        <div class="tile sns-tile">
+            <h2>SAPHRO NAMED SERVICE (SNS)</h2>
+            <div class="domain-input-group">
+                <!-- Form for domain search and registration -->
+                <form onsubmit="registerDomainFromForm(event)">
+                    <input type="text" id="domain-search" placeholder="Find domain">
+                    <button type="button" onclick="checkDomainAvailability()">Check Availability</button>
+                    <span class="domain-extension">.saphro</span>
+                    <span class="domain-extension">.sph</span>
+                
+                    <div class="domain-output-group">
+                        <input type="text" id="domain-output" placeholder="Available domain" disabled>
+                        <span id="domain-checkmark" class="domain-checkmark">&#10003;</span>
+
+                        <input type="text" id="domain-register" placeholder="Domain to register" required>
+                        <input type="text" id="mail-address" placeholder="Mail Address" required>
+                        <input type="text" id="username" placeholder="Username" required>
+                        <button type="submit">Register Domain</button>
+                    </div>
+                </form>
+
+                <h2>NAME TRANSFER</h2>
+                <input type="text" id="domain-transfer" placeholder="Domain to transfer">
+                <input type="text" id="new-owner" placeholder="New owner address">
+                <button onclick="transferDomainFromForm()">Transfer Domain</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Saphro Mail Section -->
+    <section id="mail-section" class="section" style="display: none;">
+        <!-- Compose Email Tile -->
+        <div class="compose-tile">
+            <h2>Compose Email</h2>
+            <form id="compose-form" onsubmit="sendEmail(event)">
+                <input type="text" placeholder="Recipient">
+                <input type="text" placeholder="Subject">
+                <textarea placeholder="Compose your email..."></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <!-- Inbox Tile -->
+        <div class="inbox-tile">
+            <h2>Mail Box</h2>
+            <div class="inbox">
+                <h3>Inbox</h3>
+                <div id="email-list">
+                    <!-- Email List will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+   
+<iframe id="storage-frame" src="saphrostorage.html" class="section" style="display: none; width: 50%; height: 600px; border: none; overflow: hidden; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iframe>
+
+<!-- Storage Section -->
+    <section id="storageSection">
+        <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+        <script src="saphroStorage.js"></script> <!-- Including the external JS file -->
+    </section>
+         
+
+<section id="chatSection">
+    <button class="button" onclick="showSaphroBlockscanChat()">Chat</button>
+    <iframe id="chatFrame" src="about:blank"></iframe>
+</section>
+
+<section id="Chat-section" class="section">
+    <div class="tile Chat-tile">
+
+
+        <!-- Chat UI -->
+        <div id="chatContainer" class="chat-container enable-chat">
+            <div class="chat-header">Saphro Blockscan Chat</div>
+            <div class="sidebar">
+                <button class="emoji-button">😊</button>
+                <button class="font-button">Font</button>
+            </div>
+            <div class="messages-area">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            <div class="input-area">
+		<input type="text" placeholder="Type a message...">
+		<button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<iframe id="wallet-frame" src="wallet.html" class="section" style="display: none; width: 50%; height: 600px; border: none; overflow: hidden; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></iframe>
+
+
+<!-- Wallet Section -->
+<section id="walletSection" class="section">
+    <div class="wallet-tile" id="wallet"></div>
+</section>
+</body>
+
+   
+
+<script>
+        // Function to hide all sections
+        function hideAllSections() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+        }
+
+        // Function to show a specific section
+        function showSection(sectionId) {
+            hideAllSections();
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.style.display = 'block';
+            }
+        }
+
+        // Function to fetch and display domain tiles
+        function fetchDomains() {
+            const domains = [
+                { name: "example.saphro", owner: "John Doe", expiration: "2025-01-01" },
+                { name: "test.saphro", owner: "Jane Smith", expiration: "2024-12-31" }
+            ];
+            const domainTiles = document.getElementById("domain-tiles");
+
+            domains.forEach(domain => {
+                const tile = document.createElement("div");
+                tile.classList.add("domain-tile");
+                tile.innerHTML = `
+                    <h3>${domain.name}</h3>
+                    <p><strong>Owner:</strong> ${domain.owner}</p>
+                    <p><strong>Expiration:</strong> ${domain.expiration}</p>
+                    <button class="button" onclick="manageDomain('${domain.name}')">Manage</button>
+                `;
+                domainTiles.appendChild(tile);
+            });
+        }
+
+        // Function to fetch and display emails
+        function fetchEmails() {
+            const emails = [
+                { sender: "john@example.com", subject: "Hello World", date: "2024-04-20" },
+                { sender: "jane@example.com", subject: "Meeting Tomorrow", date: "2024-04-19" }
+            ];
+            const emailList = document.getElementById("email-list");
+
+            emails.forEach(email => {
+                const tile = document.createElement("div");
+                tile.classList.add("email-tile");
+                tile.innerHTML = `
+                    <h3>${email.sender}</h3>
+                    <p><strong>Subject:</strong> ${email.subject}</p>
+                    <p><strong>Date:</strong> ${email.date}</p>
+                `;
+                emailList.appendChild(tile);
+            });
+        }
+
+        // Functions to show specific sections and fetch data
+        function showSNS() {
+            showSection("sns-section");
+            fetchDomains(); // Fetch and display domains
+        }
+
+        function showSaphroMail() {
+            showSection("mail-section");
+            fetchEmails(); // Fetch and display emails
+        }
+
+        function showSaphroNotes() {
+            showSection("notes-section");
+        }
+
+        function showSaphroBlockscanChat() {
+            showSection("Chat-section");
+        }
+
+        function showStorage() {
+            showSection("storage-frame");
+        }
+
+        function showWallet() {
+            showSection("wallet-frame");
+        }
+
+        // Functions for domain management
+        function registerDomain() {
+            const domainName = document.getElementById("domain-register").value;
+            const newOwner = document.getElementById("new-owner").value;
+            alert(`Domain ${domainName} registered successfully for owner ${newOwner}!`);
+            // Clear input fields after registration
+            document.getElementById("domain-register").value = "";
+            document.getElementById("new-owner").value = "";
+        }
+
+        function transferDomain() {
+            const domainName = document.getElementById("domain-transfer").value;
+            const newOwner = document.getElementById("new-owner").value;
+            alert(`Domain ${domainName} transferred successfully to ${newOwner}!`);
+            // Clear input fields after transfer
+            document.getElementById("domain-transfer").value = "";
+            document.getElementById("new-owner").value = "";
+        }
+
+        function manageDomain(domainName) {
+            alert(`Managing domain: ${domainName}`);
+        }
+
+        // Function to send email
+        function sendEmail(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            alert("Email sent successfully!");
+            document.getElementById("compose-form").reset(); // Reset form after sending email
+        }
+
+        // Initial fetch on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchDomains(); // Fetch and display domains on page load
+        });
+
+        // This function toggles the visibility of the wallet section.
+        function toggleWalletSection() {
+            var walletSection = document.getElementById('walletSection');
+            walletSection.style.display = (walletSection.style.display === 'none' || walletSection.style.display === '') ? 'block' : 'none';
+        }
+
+        // Function to load wallet.html content into the wallet-tile div
+        function loadWalletContent() {
+            fetch('wallet.html')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    document.getElementById('wallet').innerHTML = doc.body.innerHTML;
+                    document.getElementById('wallet-tile').style.display = 'block';
+                })
+                .catch(error => console.error('Error loading wallet.html:', error));
+        }
+
+        // Call the function to load the wallet content when the page is loaded
+        document.addEventListener("DOMContentLoaded", loadWalletContent);
+    </script>
+
+    <script src="blockrecorder.js" defer></script>
+    <script src="speech.js" defer></script>
+    <script src="saphroPay.js" defer></script>
+	
+</body>
+</html>
+

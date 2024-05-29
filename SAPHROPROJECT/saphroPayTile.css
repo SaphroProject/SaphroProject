@@ -1,0 +1,33 @@
+/* saphroPayTile.css - Styles specific for saphroPayTile sections */
+
+/* General styles for SNS section */
+.wallet-section {
+    background-color: rgba(128, 128, 128, 0.5); /* Light background for the section */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+
+ }
+        .wallet-tile {
+            width: 300px; /* Width of the tile */
+            height: 150px; /* Height of the tile */
+            background-color:#7a1fa2;  
+            color: white; /* White text */
+            display: flex;
+            justify-content: center; /* Centers content horizontally inside the tile */
+            align-items: center; /* Centers content vertically inside the tile */
+            font-size: 24px; /* Larger font size */
+            cursor: pointer;
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Subtle shadow */
+            text-decoration: none; /* No underline */
+        }
+        .wallet-tile:hover {
+            background-color: #7a1fa2; /* Slightly darker Proton Purple on hover */
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }

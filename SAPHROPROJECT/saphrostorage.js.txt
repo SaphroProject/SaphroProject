@@ -1,0 +1,88 @@
+// saphrostorage.js
+document.getElementById('toggleStorageButton').addEventListener('click', toggleStorage);
+document.addEventListener('DOMContentLoaded', function() {
+    const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+    const abi = [/* ABI GOES HERE */];
+    let web3 = new Web3(window.ethereum);
+    let contract = new web3.eth.Contract(abi, contractAddress);
+    var dropZone = document.getElementById('dropZone');
+
+    // Enhance drop zone interaction
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.style.backgroundColor = '#e8f0fe';  // Highlight the drop zone on drag over
+    }, false);
+
+    dropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        dropZone.style.backgroundColor = '';  // Remove highlight
+    }, false);
+
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.style.backgroundColor = '';  // Remove highlight
+        var files = e.dataTransfer.files;
+        handleFiles(files);
+    }, false);
+
+    // Read files and upload to IPFS
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                var buffer = Buffer(reader.result);
+                ipfsAdd(buffer, file.name);
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    // Upload file buffer to IPFS
+    function ipfsAdd(buffer, fileName) {
+        // Replace with your actual IPFS endpoint
+        const ipfsPath = 'https://ipfs.infura.io:5001/api/v0/add';
+        fetch(ipfsPath, {
+            method: 'POST',
+            body: buffer,
+            headers: {
+                'Content-Type': 'application/octet-stream'
+            }
+        }).then(response => response.json())
+          .then(data => {
+              if (data.Hash) {
+                  console.log('IPFS Hash:', data.Hash);
+                  storeFileHash(data.Hash, fileName);
+              } else {
+                  console.error('IPFS upload failed:', data.message);
+              }
+          }).catch(err => {
+              console.error('Error uploading to IPFS:', err);
+          });
+    }
+
+    // Store the file hash in the Ethereum smart contract
+    function storeFileHash(hash, fileName) {
+        // Ensure MetaMask is logged in and selected
+        web3.eth.getAccounts().then(accounts => {
+            var fromAddress = accounts[0];
+            contract.methods.uploadFile(fileName, hash).send({from: fromAddress})
+                .then(result => {
+                    console.log('File hash stored in contract:', result);
+                }).catch(error => {
+                    console.error('Error storing file hash:', error);
+                });
+        });
+    }
+
+function toggleStorage() {
+    var storageSection = document.getElementById('storageSection');
+    if (storageSection.style.display === 'none' || storageSection.style.display === '') {
+        storageSection.style.display = 'block';
+    } else {
+        storageSection.style.display = 'none';
+    }
+
+
+    // Attach toggle function to a button or trigger element
+    document.getElementById('toggleStorageButton').addEventListener('click', toggleStorage);
+});

@@ -1,0 +1,56 @@
+/* storage.css */
+
+.storage-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+}
+
+.storage-section {
+    background-color: rgba(128, 128, 128, 0.5); /* Light background for the section */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Comic Sans MS', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the SNS tile within the section */
+    
+}
+
+.storage-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.storage-tile {
+    display: none;
+    width: 50%;
+    height: 300px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.storage-content {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

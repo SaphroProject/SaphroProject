@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saphro Wallet</title>
+</head>
+<body>
+    <section class="wallet-section">
+        <div class="wallet-tile">
+            <h2>Saphro Wallet</h2>
+            <p>Balance: <span id="saphroBalance">0</span> SPH</p>
+            <p>Ether Balance: <span id="etherBalance">0</span> ETH</p>
+            <button id="connectWallet">Connect to MetaMask</button>
+            <button id="tradeSaphro">Trade Saphro with Ether</button>
+        </div>
+    </section>
+
+    <script>
+        let web3;
+        let account;
+        const sphTokenAddress = "YOUR_SAPHRO_TOKEN_CONTRACT_ADDRESS";
+        const sphTokenAbi = [ /* Your Saphro Token ABI */ ];
+
+        document.getElementById('connectWallet').addEventListener('click', async () => {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                account = (await web3.eth.getAccounts())[0];
+                updateBalances();
+            } else {
+                alert('MetaMask is not installed. Please install MetaMask and try again.');
+            }
+        });
+
+        async function updateBalances() {
+            const sphTokenContract = new web3.eth.Contract(sphTokenAbi, sphTokenAddress);
+            const saphroBalance = await sphTokenContract.methods.balanceOf(account).call();
+            const etherBalance = await web3.eth.getBalance(account);
+
+            document.getElementById('saphroBalance').innerText = web3.utils.fromWei(saphroBalance, 'ether');
+            document.getElementById('etherBalance').innerText = web3.utils.fromWei(etherBalance, 'ether');
+        }
+
+        document.getElementById('tradeSaphro').addEventListener('click', async () => {
+            const sphTokenContract = new web3.eth.Contract(sphTokenAbi, sphTokenAddress);
+            const amountToTrade = web3.utils.toWei('1', 'ether'); // Trade 1 SPH for example
+
+            await sphTokenContract.methods.approve(account, amountToTrade).send({ from: account });
+            // Add your trading logic here
+        });
+    </script>
+</body>
+</html>

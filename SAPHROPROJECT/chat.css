@@ -1,0 +1,153 @@
+/* Chat Container within Chat Section */
+#Chat-section .chat-container {
+    width: 1500px;
+    height: 800px;
+    background-color: rgba(10, 22, 40, 0.9); /* Dark space background with transparency */
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Header inside Chat Section */
+#Chat-section .chat-header {
+    background-color: #8a2be2;
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Sidebar inside Chat Section */
+#Chat-section .sidebar {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    width: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#Chat-section .sidebar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+/* Messages Area inside Chat Section */
+#Chat-section .messages-area {
+    flex: 1;
+    padding: 10px 50px 10px 10px; /* Extra space on the left for sidebar */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input Area inside Chat Section */
+#Chat-section .input-area {
+    display: flex;
+    padding: 10px;
+    background-color: #f0f0f0;
+    align-items: center;
+    color: #333;
+}
+
+#Chat-section .input-area button {
+	width: 20%; /* Narrower send button */
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+}
+
+/* Input Area inside Chat Section */
+#Chat-section .input-area {
+    display: flex;
+    padding: 10px;
+    background-color: #f0f0f0;
+    align-items: center;
+    color: #333;
+    justify-content: flex-end; /* Aligns items to the right */
+}
+
+#Chat-section .input-area input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    max-width: 60%; /* Control the maximum width */
+    margin-left: auto; /* Pushes the input field to the right */
+}
+
+#Chat-section .input-area button {
+    padding: 10px 20px;
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between the input field and button */
+}
+
+#Chat-section .input-area button:hover {
+    background-color: #8a2be2;
+}
+
+/* Sidebar for contacts and group chats */
+#Chat-section .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 400px; /* Increased width */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background for better visibility */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items for better aesthetics */
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow-y: auto; /* Allow scrolling */
+}
+
+/* Adjusting messages area to accommodate sidebar */
+#Chat-section .messages-area {
+    flex: 1;
+    padding: 10px 10px 10px 220px; /* Adjusted left padding */
+    overflow-y: auto;
+}
+
+/* Input area adjustment for switching input field and button */
+#Chat-section .input-area {
+    padding: 10px 10px 10px 220px; /* Align with messages area */
+}
+
+/* Style for contacts in the sidebar */
+#Chat-section .sidebar .contact {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #333; /* Dark background for each contact */
+    color: #fff;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    border: none;
+}
+
